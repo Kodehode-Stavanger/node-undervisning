@@ -1,0 +1,6 @@
+25.04.2024	09:52:11	b856326b-0884-4b83-bd73-e728ffeba67b	POST	/api/productss
+25.04.2024	09:55:50	8b7aaee6-3b1c-4628-a706-be4094c34cdd	POST	/api/productss
+25.04.2024	09:57:43	6ef961d5-56f6-4d58-9bf8-be72cb930371	POST	/api/productss
+25.04.2024	09:58:04	5c09ad32-482a-4074-bc4a-6e796b996ec4	POST	/api/productss
+25.04.2024	09:58:05	d26136ea-d196-4081-bcde-78326f2b1287	POST	/api/productss
+25.04.2024	10:00:19	e6cfd112-de4b-4a24-a257-7140bc8f1fa4	PATCH	/api/products

@@ -1,0 +1,6 @@
+25.04.2024	09:52:11	73b4991f-f961-448b-b875-0daa4096c9f8	POST	/api/productss	404	Not found
+25.04.2024	09:55:50	01b132a6-f3a6-45a7-8cbe-bdbaee5c3dd3	POST	/api/productss	404	Not found!
+25.04.2024	09:57:43	c4dde27b-6e1a-4fd8-9d98-8b9823c1c88b	POST	/api/productss	404	Not found!
+25.04.2024	09:58:04	be91e9ef-db6f-47ff-9829-a5a3a44f1323	POST	/api/productss	404	Not found!
+25.04.2024	09:58:05	6248ba27-b01d-49f8-aa58-823d501b5ca7	POST	/api/productss	404	Not found!
+25.04.2024	10:00:19	a95be73a-a6cb-4ec0-856b-b5d4fc3ce6e7	PATCH	/api/products	405	PATCH not supported on this endpoint. Please refer to the API documentation.

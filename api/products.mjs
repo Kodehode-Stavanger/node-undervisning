@@ -1,5 +1,6 @@
 import express from "express";
 const router = express.Router();
+import { ReqError } from "../util/errorHandler.mjs";
 
 router.all("/", (req, res) => {
   if (req.method === "GET") {
@@ -11,11 +12,10 @@ router.all("/", (req, res) => {
       message: "Use this to add new products.",
     });
   } else {
-    const error = new Error(
+    throw new ReqError(
+      405,
       `${req.method} not supported on this endpoint. Please refer to the API documentation.`
     );
-    error.status = 405;
-    throw error;
   }
 });
 
@@ -37,11 +37,10 @@ router.all("/:productId", (req, res) => {
       message: `Thiss will update product with id ${productId}`,
     });
   } else {
-    const error = new Error(
+    throw new ReqError(
+      405,
       `${req.method} not supported on this endpoint. Please refer to the API documentation.`
     );
-    error.status = 405;
-    throw error;
   }
 });
 
