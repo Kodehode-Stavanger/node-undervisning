@@ -1,118 +1,79 @@
 import express from "express";
 const router = express.Router();
 import { ReqError } from "../util/errorHandler.mjs";
-
-const products = [
-  {
-    productName: "T-Shirt",
-    productId: 12345,
-    category: "Clothing",
-    stock: 10,
-    price: 19.99,
-  },
-  {
-    productName: "Laptop",
-    productId: 54321,
-    category: "Electronics",
-    stock: 5,
-    price: 799.99,
-  },
-  {
-    productName: "Coffee Mug",
-    productId: 98765,
-    category: "Kitchen",
-    stock: 20,
-    price: 8.99,
-  },
-  {
-    productName: "Headphones",
-    productId: 36987,
-    category: "Electronics",
-    stock: 15,
-    price: 49.99,
-  },
-  {
-    productName: "Notebook",
-    productId: 25874,
-    category: "Office Supplies",
-    stock: 30,
-    price: 5.99,
-  },
-  {
-    productName: "Mouse",
-    productId: 74125,
-    category: "Electronics",
-    stock: 8,
-    price: 14.99,
-  },
-  {
-    productName: "Plant",
-    productId: 89632,
-    category: "Home Decor",
-    stock: 12,
-    price: 15.5,
-  },
-  {
-    productName: "Water Bottle",
-    productId: 52143,
-    category: "Kitchen",
-    stock: 25,
-    price: 9.99,
-  },
-];
+import {
+  getProducts,
+  getProduct,
+  deleteProduct,
+  getCategory,
+  addProduct,
+  updateProduct,
+} from "../util/dbQueries.mjs";
 
 router.all("/", (req, res) => {
+  //Route to fetch all products
   if (req.method === "GET") {
-    let data = products;
+    let data;
     const { category } = req.query;
 
-    if (category) {
-      data = products.filter(
-        (product) => product.category.toLowerCase() === category.toLowerCase()
-      );
-    }
+    //query the DB
+    if (category) data = getCategory(category);
+    else data = getProducts();
 
-    res.status(200).json({
-      results: data,
-    });
+    //respond with json data
+    res.status(200).json({ results: data });
+
+    // Route to add a new product to the DB
   } else if (req.method === "POST") {
+    addProduct(req.body);
     res.status(201).json({
-      message: "Use this to add new products.",
+      message: "Product successfully added.",
+      productAdded: req.body,
     });
   } else {
-    // const error = new Error(
-    //   `${req.method} not supported on this endpoint. Please refer to the API documentation.`
-    // );
-    // error.status = 405;
-    // throw error;
-    throw new ReqError(405, "u can't do that.");
+    throw new ReqError(405, "Unsupported method");
   }
 });
 
 router.all("/:productId", (req, res) => {
+  // get the product id from params
   const { productId } = req.params;
+  // initialize variables to hold data and message to return
+  let data, message;
+
   if (req.method === "GET") {
-    res.status(200).json({
-      productId: productId,
-      message: `Information about product with id ${productId} will come here.`,
-    });
+    // handle GET a single product
+
+    data = getProduct(productId);
+    if (data.length !== 0) {
+      "Successfully fetched data for product " + productId;
+    } else {
+      throw new ReqError(404, "Product not found");
+    }
   } else if (req.method === "DELETE") {
-    res.status(200).json({
-      productId: productId,
-      message: `This will delete product with id ${productId}`,
-    });
+    // handle DELETE a single product
+
+    data = getProduct(productId);
+    deleteProduct(productId);
+    message = "Successfully deleted product " + productId;
   } else if (req.method === "PUT") {
-    res.status(200).json({
-      productId: productId,
-      message: `Thiss will update product with id ${productId}`,
-    });
+    // handle UPDATE a single product
+
+    updateProduct(req.body);
+    data = getProduct(productId);
+    message = "Successfully updated product " + productId;
   } else {
-    const error = new Error(
-      `${req.method} not supported on this endpoint. Please refer to the API documentation.`
-    );
-    error.status = 405;
-    throw error;
+    // handle unsupported methods to this route.
+
+    throw new ReqError(405, "Unsupported method");
   }
+
+  // sending message and data.
+
+  res.status(200).json({
+    message: message,
+    product: data,
+  });
 });
 
 export default router;
